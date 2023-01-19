@@ -18,26 +18,38 @@ DB_SESSION = sessionmaker(bind=DB_ENGINE)
 
 # Endpoints
 def buy(body):
-    # TODO create a session
+    
+    session = DB_SESSION()
 
-    # TODO create a Buy object and populate it with values from the body
-
-    # TODO add, commit, and close the session
-
+    buy = Buy(
+        body['buy_id'],
+        body['item_name'],
+        body['item_price'],
+        body['item_qty']
+    )
+    
+    session.add(buy)
+    session.commit()
+    session.close()
+    
     return NoContent, 201
-# end
 
 def get_buys():
     # placeholder for future labs
     pass
 
 def sell(body):
-    # TODO create a session
-
-    # TODO create a Buy object and populate it with values from the body
-
-    # TODO add, commit, and close the session
-
+    session = DB_SESSION()
+    sell = Buy(
+        body['sell_id'],
+        body['item_name'],
+        body['item_price'],
+        body['item_qty']
+    )
+    session.add(sell)
+    session.commit()
+    session.close()
+    
     return NoContent, 201
 # end
 

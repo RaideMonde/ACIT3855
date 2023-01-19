@@ -3,18 +3,28 @@ from base import Base
 import datetime
 
 class Sell(Base):
-    # TODO declare table name
-
-    id = Column(Integer, primary_key=True)
     
-    # TODO create the necessary columns following the id example above
+    id = Column(Integer, primary_key=True)
+    sell_id = Column(String(250), nullable=False)
+    item_name = Column(String(250), nullable = False)
+    item_price = Column(Integer, nullable=False)
+    sell_qty = Column(Integer, nullable=False)
+    date_created = datetime.datetime.now()
+    
 
     def __init__(self, sell_id, item_name, item_price, sell_qty):
-        # TODO assign the parameter values to the object's properties
-        pass
+        
+        self.date_created = datetime.datetime.now()
+        self.sell_id = sell_id
+        self.item_name = item_name
+        self.item_price = item_price
+        self.sell_qty = sell_qty
 
     def to_dict(self):
-        # TODO create a dict, and assign object properties to your dict
+        dict = {}
+        dict['sell_id'] = self.sell_id
+        dict['item_name'] = self.item_name
+        dict['item_price'] = self.item_price
+        dict['sell_qty'] = self.sell_qty
 
-        # TODO return dict
-        pass
+        return dict
