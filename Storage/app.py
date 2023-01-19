@@ -25,7 +25,7 @@ def buy(body):
         body['buy_id'],
         body['item_name'],
         body['item_price'],
-        body['item_qty']
+        body['buy_qty']
     )
     
     session.add(buy)
@@ -44,7 +44,7 @@ def sell(body):
         body['sell_id'],
         body['item_name'],
         body['item_price'],
-        body['item_qty']
+        body['sell_qty']
     )
     session.add(sell)
     session.commit()
