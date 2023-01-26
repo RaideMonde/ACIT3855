@@ -34,14 +34,20 @@ DB_SESSION = sessionmaker(bind=DB_ENGINE)
 # Endpoints
 def buy(body):
     # TODO create a session
-    
+    session = DB_SESSION()
 
     # TODO additionally pass trace_id (along with properties from Lab 2) into Buy constructor
     b = Buy(
         body ['buy_id'],
+        body['trace_id'],
+        body['item_price'],
+        body['buy_qty'],
         body['trace_id']
     )
     # TODO add, commit, and close the session
+    session.add(b)
+    session.commit()
+    session.close()
 
     # TODO: call logger.debug and pass in message "Stored buy event with trace id <trace_id>"
     logger.debug(f"Stored buy event with {body['trace_id']}")
@@ -55,13 +61,24 @@ def get_buys():
 
 def sell(body):
     # TODO create a session
+    session = DB_SESSION()
 
-    # TODO additionally pass trace_id (along with properties from Lab 2) into Sell constructor
-
+    # TODO additionally pass trace_id (along with properties from Lab 2) into Buy constructor
+    s = Sell(
+        body['sell_id'],
+        body['trace_id'],
+        body['item_price'],
+        body['sell_qty'],
+        body['trace_id']
+    )
     # TODO add, commit, and close the session
+    session.add(s)
+    session.commit()
+    session.close()
 
     # TODO: call logger.debug and pass in message "Stored buy event with trace id <trace_id>"
-
+    logger.debug(f"Stored sell event with {s['trace_id']}")
+    # TODO return NoContent, 201
     return NoContent, 201
 # end
 

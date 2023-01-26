@@ -1,2 +1,26 @@
 RECEIVER :: DEBUG – Received event {'buy_id': 'd290f1ee-6c54-4b01-90e6-d701748f0851', 'buy_qty': 1, 'item_name': 'Item 1', 'item_price': 19.99, 'trace_id': 'a550abf5-dd4d-4654-a0b8-1892dcd33a4f'} with trace id a550abf5-dd4d-4654-a0b8-1892dcd33a4f
 RECEIVER :: DEBUG – Received event {'buy_id': 'd290f1ee-6c54-4b01-90e6-d701748f0851', 'buy_qty': 1, 'item_name': 'Item 1', 'item_price': 19.99, 'trace_id': '00a5f656-4a21-4007-bf89-1cff57683dd8'} with trace id 00a5f656-4a21-4007-bf89-1cff57683dd8
+RECEIVER :: DEBUG – Received event {'buy_id': 'd290f1ee-6c54-4b01-90e6-d701748f0851', 'buy_qty': 1, 'item_name': 'Item 1', 'item_price': 19.99, 'trace_id': '01c9c004-d391-4855-ad56-6cd8dc1772a9'} with trace id 01c9c004-d391-4855-ad56-6cd8dc1772a9
+RECEIVER :: DEBUG – Received event buy with trace id 9965ae57-14d4-4a5a-af00-c97e7c24cfde
+RECEIVER :: DEBUG – Received event buy with trace id a8fcd711-2aa4-42fd-a1de-6440079afa34
+RECEIVER :: DEBUG – Received response with trace id a8fcd711-2aa4-42fd-a1de-6440079afa34 status code 500
+RECEIVER :: DEBUG – Received event buy with trace id 22d581d9-b77e-4cfd-b72a-1bec6a2b3738
+RECEIVER :: DEBUG – Received response with trace id 22d581d9-b77e-4cfd-b72a-1bec6a2b3738 status code 500
+RECEIVER :: DEBUG – Received event buy with trace id a3176140-5e9f-4bc6-a8dd-4d23cb6375af
+RECEIVER :: DEBUG – Received response with trace id a3176140-5e9f-4bc6-a8dd-4d23cb6375af status code 500
+RECEIVER :: DEBUG – Received event buy with trace id b51eb203-2ee9-4ad4-aa34-09714426b5f0
+RECEIVER :: DEBUG – Received response with trace id b51eb203-2ee9-4ad4-aa34-09714426b5f0 status code 500
+RECEIVER :: DEBUG – Received event sell with trace id 6a53911e-a9ff-45fd-b910-58787bfd9f48
+RECEIVER :: DEBUG – Received response with trace id 6a53911e-a9ff-45fd-b910-58787bfd9f48 status code 500
+RECEIVER :: DEBUG – Received event sell with trace id 53ac3184-994d-4301-8d00-96a9d0d3200f
+RECEIVER :: DEBUG – Received response with trace id 53ac3184-994d-4301-8d00-96a9d0d3200f status code 500
+RECEIVER :: DEBUG – Received event buy with trace id 0e0cba66-7550-4050-9ed7-583e2e644da8
+RECEIVER :: DEBUG – Received response with trace id 0e0cba66-7550-4050-9ed7-583e2e644da8 status code 500
+RECEIVER :: DEBUG – Received event buy with trace id 6aa460df-8eef-4fc1-815b-0e1d7c03d63c
+STORAGE :: DEBUG – Stored buy event with 6aa460df-8eef-4fc1-815b-0e1d7c03d63c
+RECEIVER :: DEBUG – Received response with trace id 6aa460df-8eef-4fc1-815b-0e1d7c03d63c status code 201
+RECEIVER :: DEBUG – Received event sell with trace id 6cd37c44-a0b4-41d4-8ba8-2d056d717603
+RECEIVER :: DEBUG – Received response with trace id 6cd37c44-a0b4-41d4-8ba8-2d056d717603 status code 500
+RECEIVER :: DEBUG – Received event buy with trace id b50597be-268a-4764-937f-ef76e9e79fa8
+STORAGE :: DEBUG – Stored buy event with b50597be-268a-4764-937f-ef76e9e79fa8
+RECEIVER :: DEBUG – Received response with trace id b50597be-268a-4764-937f-ef76e9e79fa8 status code 201
