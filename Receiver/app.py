@@ -15,15 +15,17 @@ def process_event(event, endpoint):
     event['trace_id'] = trace_id
 
     # TODO: call logger.debug and pass in message "Received event <type> with trace id <trace_id>"
-
+    logger.debug(f"Received event {event} with trace id {event['trace_id']}")
     headers = { 'Content-Type': 'application/json' }
 
     # TODO: update requests.post to use app_config property instead of hard-coded URL
+    res = requests.post(app_config[endpoint]['url'], headers = headers, data = json.dumps(event))
     
     # TODO: call logger.debug and pass in message "Received response with trace id <trace_id>, status code <status_code>"
+    logger.debug(f"Received resoponse with trace id {event[trace_id]} status code {res.status_code}")
 
-    pass
     # return res.text, res.status_code
+    return (res.text, res.status_code)
 
 # Endpoints
 def buy(body):

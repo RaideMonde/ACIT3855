@@ -31,11 +31,15 @@ def buy(body):
     # TODO create a session
 
     # TODO additionally pass trace_id (along with properties from Lab 2) into Buy constructor
-
+    b = Buy(
+        body ['buy_id'],
+        ...
+        body['trace_id']
+    )
     # TODO add, commit, and close the session
 
     # TODO: call logger.debug and pass in message "Stored buy event with trace id <trace_id>"
-
+    logger.debug(f"Stored buy event with {body['trace_id']}")
     # TODO return NoContent, 201
     return NoContent, 201
 # end
