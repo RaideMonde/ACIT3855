@@ -1,0 +1,2 @@
+RECEIVER :: DEBUG – Received event {'buy_id': 'd290f1ee-6c54-4b01-90e6-d701748f0851', 'buy_qty': 1, 'item_name': 'Item 1', 'item_price': 19.99, 'trace_id': 'a550abf5-dd4d-4654-a0b8-1892dcd33a4f'} with trace id a550abf5-dd4d-4654-a0b8-1892dcd33a4f
+RECEIVER :: DEBUG – Received event {'buy_id': 'd290f1ee-6c54-4b01-90e6-d701748f0851', 'buy_qty': 1, 'item_name': 'Item 1', 'item_price': 19.99, 'trace_id': '00a5f656-4a21-4007-bf89-1cff57683dd8'} with trace id 00a5f656-4a21-4007-bf89-1cff57683dd8

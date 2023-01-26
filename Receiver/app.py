@@ -39,10 +39,10 @@ def sell(body):
 app = connexion.FlaskApp(__name__, specification_dir='')
 app.add_api("openapi.yml", strict_validation=True, validate_responses=True)
 
-with open('app_conf.yml', 'r') as f:
+with open('Receiver/app_conf.yml', 'r') as f:
     app_config = yaml.safe_load(f.read())
 
-with open('log_conf.yml', 'r') as f:
+with open('Receiver/log_conf.yml', 'r') as f:
     log_config = yaml.safe_load(f.read())
     logging.config.dictConfig(log_config)
 

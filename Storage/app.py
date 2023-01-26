@@ -18,22 +18,27 @@ from base import Base
 from buy import Buy
 from sell import Sell
 
-with open('app_conf.yml', 'r') as f:
+with open('./Storage/app_conf.yml', 'r') as f:
     app_config = yaml.safe_load(f.read())
 
 # TODO: create connection string, replacing placeholders below with variables defined in log_conf.yml
-DB_ENGINE = create_engine(f"mysql+pymysql://user:password@hostname:port/db")
+user     = app_config['user']
+password = app_config['password']
+hostname = app_config['hostname']
+port     = app_config['port']
+db       = app_config['db']
+DB_ENGINE = create_engine(f"mysql+pymysql://{user}:{password}@{hostname}:{port}/{db}")
 Base.metadata.bind = DB_ENGINE
 DB_SESSION = sessionmaker(bind=DB_ENGINE)
 
 # Endpoints
 def buy(body):
     # TODO create a session
+    
 
     # TODO additionally pass trace_id (along with properties from Lab 2) into Buy constructor
     b = Buy(
         body ['buy_id'],
-        ...
         body['trace_id']
     )
     # TODO add, commit, and close the session
@@ -67,7 +72,7 @@ def get_sells():
 app = connexion.FlaskApp(__name__, specification_dir='')
 app.add_api('openapi.yaml', strict_validation=True, validate_responses=True)
 
-with open('log_conf.yml', 'r') as f:
+with open('./Storage/log_conf.yml', 'r') as f:
     log_config = yaml.safe_load(f.read())
     logging.config.dictConfig(log_config)
 
