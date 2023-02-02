@@ -97,19 +97,23 @@ def sell(body):
 
 def get_sells(timestamp):
     # TODO create a DB SESSION
+    session = DB_SESSION()
 
-
-    # TODO query the session and filter by Sell.date_created >= timestamp
-    # e.g. rows = session.query(Sell).filter etc...
+    # TODO query the session and filter by Buy.date_created >= timestamp
+    # e.g. rows = session.query(Buy).filter etc...
+    rows = session.query(Sell).filter(Sell.date_created >= timestamp)
 
     # TODO create a list to hold dictionary representations of the rows
     data = []
     # TODO loop through the rows, appending each row (use .to_dict() on each row) to 'data'
+    for row in rows:
+        data.append(row.to_dict())
 
     # TODO close the session
+    session.close()
 
-    # TODO log the request to get_sells including the timestamp and number of results returned
-
+    # TODO log the request to get_buys including the timestamp and number of results returned
+    logger.debug(f'Returning {len(data)} buy events at {timestamp}')
     return data, 200
 
 app = connexion.FlaskApp(__name__, specification_dir='')
