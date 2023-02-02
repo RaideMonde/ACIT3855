@@ -51,12 +51,14 @@ def populate_stats():
 
 
     # TODO create a timestamp (e.g. datetime.datetime.now().strftime('...'))
-    datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    timestamp = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     # TODO create a last_updated variable that is initially assigned the timestamp, i.e. last_updated = timestamp
+    last_updated = timestamp
 
     # TODO log beginning of processing
 
     # TODO create a session
+    session = DB_SESSION()
 
     # TODO read latest record from stats.sqlite (ordered by last_updated)
     # e.g. result = session.query(Stats)...  etc.
