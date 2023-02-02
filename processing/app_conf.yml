@@ -4,3 +4,4 @@ password: 'password'
 hostname: 'localhost'
 port: 3306
 db: 'events'
+period: 5

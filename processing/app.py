@@ -14,22 +14,15 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from base import Base
 from stats import Stats
-with open('./Processing/app_conf.yml', 'r') as f:
-    app_config = yaml.safe_load(f.read())
 
-user     = app_config['user']
-password = app_config['password']
-hostname = app_config['hostname']
-port     = app_config['port']
-db       = app_config['db']
-DB_ENGINE = create_engine(f"mysql+pymysql://{user}:{password}@{hostname}:{port}/{db}")
+DB_ENGINE = create_engine("sqlite:///stats.sqlite")
 Base.metadata.bind = DB_ENGINE
 DB_SESSION = sessionmaker(bind=DB_ENGINE)
 
 def get_latest_stats():
     # TODO create a session
     session = DB_SESSION()
-    # Date format = yyyy-mm-dd|Thh:mm:ssZ
+    # Date format = yyyy-mm-ddThh:mm:ssZ
 
     # TODO query the session for the first Stats record, ordered by Stats.last_updated
     result = session.query(Stats).order_by(Stats.last_updated.desc()).first()
@@ -37,7 +30,7 @@ def get_latest_stats():
     result = result.to_dict()
     
     
-    return result, 201
+    return result, 200
 
 def populate_stats():
     #   IMPORTANT: all stats calculated by populate_stats must be CUMULATIVE
@@ -58,6 +51,7 @@ def populate_stats():
 
 
     # TODO create a timestamp (e.g. datetime.datetime.now().strftime('...'))
+    datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     # TODO create a last_updated variable that is initially assigned the timestamp, i.e. last_updated = timestamp
 
     # TODO log beginning of processing
@@ -66,12 +60,16 @@ def populate_stats():
 
     # TODO read latest record from stats.sqlite (ordered by last_updated)
     # e.g. result = session.query(Stats)...  etc.
+    result = get_latest_stats()
+    print(result) # (< >, 200)
+    result = result[0]
 
     # TODO if result is not empty, convert result to a dict, read the last_updated property and store it in a variable named last_updated
-    # if result does not exist, create a dict with default keys and values, and store it in the result variable
 
     # TODO call the /buy GET endpoint of storage, passing last_updated
     # TODO convert result to a json object, loop through and calculate max_buy_price of all recent records
+    rows=requests.get(f'http://localhost:8090?timestamp={last_updated}')
+    rows = rows.json()
     
     # TODO call the /sell GET endpoint of storage, passing last_updated
     # TODO convert result to a json object, loop through and calculate max_sell_price of all recent records
@@ -90,10 +88,10 @@ def init_scheduler():
 app = connexion.FlaskApp(__name__, specification_dir='')
 app.add_api("openapi.yml", strict_validation=True, validate_responses=True)
 
-with open('app_conf.yml', 'r') as f:
+with open('./processing/app_conf.yml', 'r') as f:
     app_config = yaml.safe_load(f.read())
 
-with open('log_conf.yml', 'r') as f:
+with open('./processing/log_conf.yml', 'r') as f:
     log_config = yaml.safe_load(f.read())
     logging.config.dictConfig(log_config)
 
