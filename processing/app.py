@@ -70,15 +70,38 @@ def populate_stats():
 
     # TODO call the /buy GET endpoint of storage, passing last_updated
     # TODO convert result to a json object, loop through and calculate max_buy_price of all recent records
-    rows=requests.get(f'http://localhost:8090?timestamp={last_updated}')
+    rows=requests.get(f'http://localhost:8090/buy?timestamp={last_updated}')
     rows = rows.json()
+    max_buy_price = 0
+    total_num_buys = 0
+    for row in rows:
+        if max_buy_price < row['item_price']:
+            max_buy_price = row['item_price']
+        total_num_buys += row['buy_qty']
     
     # TODO call the /sell GET endpoint of storage, passing last_updated
     # TODO convert result to a json object, loop through and calculate max_sell_price of all recent records
+    rows=requests.get(f'http://localhost:8090/sell?timestamp={last_updated}')
+    max_sell_price = 0
+    total_num_sells = 0
+    for row in rows:
+        if max_sell_price < row['item_price']:
+            max_sell_price = row['item_price']
+        total_num_sells += row['sell_qty']
 
     # TODO write a new Stats record to stats.sqlite using timestamp and the statistics you just generated
+    stats = {
+        'max_buy_price':    max_buy_price,
+        'total_num_buys':   total_num_buys,
+        'max_sell_price':   max_sell_price,
+        'total_num_sells':  total_num_sells,
+        'timestamp':        timestamp
+    }
     
     # TODO add, commit and optionally close the session
+    session.add(stats)
+    session.commit()
+    session.close()
 
     return NoContent, 201
 
