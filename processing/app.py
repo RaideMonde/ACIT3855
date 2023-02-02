@@ -14,20 +14,30 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from base import Base
 from stats import Stats
+with open('./Processing/app_conf.yml', 'r') as f:
+    app_config = yaml.safe_load(f.read())
 
-DB_ENGINE = create_engine("sqlite:///stats.sqlite")
+user     = app_config['user']
+password = app_config['password']
+hostname = app_config['hostname']
+port     = app_config['port']
+db       = app_config['db']
+DB_ENGINE = create_engine(f"mysql+pymysql://{user}:{password}@{hostname}:{port}/{db}")
 Base.metadata.bind = DB_ENGINE
 DB_SESSION = sessionmaker(bind=DB_ENGINE)
 
 def get_latest_stats():
     # TODO create a session
+    session = DB_SESSION()
+    # Date format = yyyy-mm-dd|Thh:mm:ssZ
 
     # TODO query the session for the first Stats record, ordered by Stats.last_updated
-
+    result = session.query(Stats).order_by(Stats.last_updated.desc()).first()
     # TODO if result is not empty, convert it to a dict and return it (with status code 200)
+    result = result.to_dict()
     
-    # TODO if result is empty, return NoContent, 201
-    return NoContent, 201
+    
+    return result, 201
 
 def populate_stats():
     #   IMPORTANT: all stats calculated by populate_stats must be CUMULATIVE
