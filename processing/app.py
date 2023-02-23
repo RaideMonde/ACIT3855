@@ -82,6 +82,7 @@ def populate_stats():
     # TODO call the /sell GET endpoint of storage, passing last_updated
     # TODO convert result to a json object, loop through and calculate max_sell_price of all recent records
     rows=requests.get(f'http://localhost:8090/sell?timestamp={last_updated}')
+    rows = rows.json()
     max_sell_price = 0
     total_num_sells = 0
     for row in rows:
@@ -90,16 +91,16 @@ def populate_stats():
         total_num_sells += row['sell_qty']
 
     # TODO write a new Stats record to stats.sqlite using timestamp and the statistics you just generated
-    stats = {
-        'max_buy_price':    max_buy_price,
-        'total_num_buys':   total_num_buys,
-        'max_sell_price':   max_sell_price,
-        'total_num_sells':  total_num_sells,
-        'timestamp':        timestamp
-    }
+    stat = Stats(
+        max_buy_price,
+        total_num_buys,
+        max_sell_price,
+        total_num_sells,
+        timestamp
+    )
     
     # TODO add, commit and optionally close the session
-    session.add(stats)
+    session.add(stat)
     session.commit()
     session.close()
 

@@ -14,18 +14,48 @@ def process_event(event, endpoint):
     trace_id = str(uuid.uuid4())
     event['trace_id'] = trace_id
 
-    # TODO: call logger.debug and pass in message "Received event <type> with trace id <trace_id>"
-    logger.debug(f"Received event {endpoint} with trace id {trace_id}")
-    headers = { 'Content-Type': 'application/json' }
+    logger.debug(f'Received {endpoint} event with trace id {trace_id}')
 
-    # TODO: update requests.post to use app_config property instead of hard-coded URL
-    res = requests.post(app_config[endpoint]['url'], headers = headers, data = json.dumps(event))
+    # TODO: create KafkaClient object assigning hostname and port from app_config to named parameter "hosts"
+    # and store it in a variable named 'client'
+    hostname = app_config['hostname']
+    port     = app_config['port']
+    topic    = app_config['topic']
+    client = KafkaClient(hosts=f"{hostname}:{port}")
+
+    # TODO: index into the client.topics array using topic from app_config
+    # and store it in a variable named topic
+    topic = client.topics[topic]
+
+    # TODO: call get_sync_producer() on your topic variable
+    # and store the return value in variable named producer
+    producer = topic.get_sync_producer()
+
+    # TODO: create a dictionary with three properties:
+    # type (equal to the event type, i.e. endpoint param)
+    # datetime (equal to the current time, formatted as per our usual format)
+    # payload (equal to the entire event passed into the function)
+    time = datetime.datetime.now().strftime('%U-%m-%d %H:%M:%S')
+
+    dict = {'type': endpoint, 
+            'datetime': time, 
+            'payload': event}
+
+    # TODO: convert the dictionary to a json string
+    event_dump = json.dumps(dict).encode(str = "utf-8")
+
+
+    # TODO: call the produce() method of your producer variable and pass in your json string
+    # note: encode the json string as utf-8
+    producer.produce(event_dump)
     
-    # TODO: call logger.debug and pass in message "Received response with trace id <trace_id>, status code <status_code>"
-    logger.debug(f"Received response with trace id {trace_id} status code {res.status_code}")
+    # TODO: log "PRODUCER::producing x event" where x is the actual event type
+    # TODO: log the json string
+    logger.debug(f"PRODUCER:: producing {endpoint} event")
+    logger.debug(event_dump)
 
-    # return res.text, res.status_code
-    return (res.text, res.status_code)
+
+    return NoContent, 201
 
 # Endpoints
 def buy(body):
