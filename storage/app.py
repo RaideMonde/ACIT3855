@@ -18,18 +18,96 @@ from base import Base
 from buy import Buy
 from sell import Sell
 
+import pykafka
+from pykafka import KafkaClient
+from pykafka.common import OffsetType
+
+import threading
+from threading import Thread
+
 with open('./Storage/app_conf.yml', 'r') as f:
     app_config = yaml.safe_load(f.read())
 
-# TODO: create connection string, replacing placeholders below with variables defined in log_conf.yml
-user     = app_config['user']
-password = app_config['password']
+
 hostname = app_config['hostname']
 port     = app_config['port']
-db       = app_config['db']
-DB_ENGINE = create_engine(f"mysql+pymysql://{user}:{password}@{hostname}:{port}/{db}")
+topic    = app_config['topic']   
+DB_ENGINE = create_engine(f"mysql+pymysql://{app_config['user']}:{app_config['password']}@{hostname}:{port}/{app_config['db']}")
 Base.metadata.bind = DB_ENGINE
 DB_SESSION = sessionmaker(bind=DB_ENGINE)
+
+# TODO: create connection string, replacing placeholders below with variables defined in log_conf.yml
+
+def process_messages():
+    # TODO: create KafkaClient object assigning hostname and port from app_config to named parameter "hosts"
+    # and store it in a variable named 'client'    
+    hostname = app_config['hostname']
+    port     = app_config['port']
+    topic    = app_config['topic']   
+    client = KafkaClient(hosts=f"{hostname}:{port}")
+
+    # TODO: index into the client.topics array using topic from app_config
+    # and store it in a variable named topic
+    topic = client.topics[topic]
+    # Notes:
+    #
+    # An 'offset' in Kafka is a number indicating the last record a consumer has read,
+    # so that it does not re-read events in the topic
+    #
+    # When creating a consumer object,
+    # reset_offset_on_start = False ensures that for any *existing* topics we will read the latest events
+    # auto_offset_reset = OffsetType.LATEST ensures that for any *new* topic we will also only read the latest events
+    
+    messages = topic.get_simple_consumer( 
+        reset_offset_on_start = False, 
+        auto_offset_reset = OffsetType.LATEST
+    )
+
+    for msg in messages:
+        # This blocks, waiting for any new events to arrive
+        # TODO: decode (utf-8) the value property of the message, store in a variable named msg_str
+        msg_str = msg.decode(encoding='UTF-8')
+        # TODO: convert the json string (msg_str) to an object, store in a variable named msg
+        msg = json.loads(msg_str)
+        # TODO: extract the payload property from the msg object, store in a variable named payload
+        payload = msg["payload"]
+        # TODO: extract the type property from the msg object, store in a variable named msg_type
+        msg_type = msg["type"]
+        # TODO: create a database session
+        session = DB_SESSION()
+
+        # TODO: log "CONSUMER::storing buy event"
+        # TODO: log the msg object
+        logger.debug("CONSUMER::storing buy event")
+        logger.debug(msg)
+
+        # TODO: if msg_type equals 'buy', create a Buy object and pass the properties in payload to the constructor
+        # if msg_type equals sell, create a Sell object and pass the properties in payload to the constructor
+        if msg_type == 'buy':
+            obj = Buy(
+                payload['buy_id'], 
+                payload['item_name'],
+                payload['item_price'],
+                payload['buy_qty'],
+                payload['trace_id']
+            )
+        if msg_type == 'sell':
+            obj = Sell(
+                payload['sell_id'], 
+                payload['item_name'],
+                payload['item_price'],
+                payload['sell_qty'],
+                payload['trace_id']
+            )
+        # TODO: session.add the object you created in the previous step
+        # TODO: commit the session
+        
+        session.add(obj)
+        session.commit()
+        session.close()
+
+    # TODO: call messages.commit_offsets() to store the new read position
+        messages.commit_offsets()
 
 # Endpoints
 def buy(body):
@@ -122,4 +200,7 @@ app.add_api('openapi.yaml', strict_validation=True, validate_responses=True)
 logger = logging.getLogger('basic')
 
 if __name__ == "__main__":
+    tl = Thread(target=process_messages)
+    tl.daemon = True
+    tl.start()
     app.run(port=8090)
