@@ -114,10 +114,10 @@ def init_scheduler():
 app = connexion.FlaskApp(__name__, specification_dir='')
 app.add_api("openapi.yml", strict_validation=True, validate_responses=True)
 
-with open('./processing/app_conf.yml', 'r') as f:
+with open('./app_conf.yml', 'r') as f:
     app_config = yaml.safe_load(f.read())
 
-with open('./processing/log_conf.yml', 'r') as f:
+with open('./log_conf.yml', 'r') as f:
     log_config = yaml.safe_load(f.read())
     logging.config.dictConfig(log_config)
 

@@ -25,13 +25,13 @@ from pykafka.common import OffsetType
 import threading
 from threading import Thread
 
-with open('./Storage/app_conf.yml', 'r') as f:
+with open('./app_conf.yml', 'r') as f:
     app_config = yaml.safe_load(f.read())
 
 
 hostname = app_config['hostname']
-port     = app_config['port']
-topic    = app_config['topic']   
+port     = app_config['events']['port']
+topic    = app_config['events']['topic']
 DB_ENGINE = create_engine(f"mysql+pymysql://{app_config['user']}:{app_config['password']}@{hostname}:{port}/{app_config['db']}")
 Base.metadata.bind = DB_ENGINE
 DB_SESSION = sessionmaker(bind=DB_ENGINE)
@@ -41,9 +41,9 @@ DB_SESSION = sessionmaker(bind=DB_ENGINE)
 def process_messages():
     # TODO: create KafkaClient object assigning hostname and port from app_config to named parameter "hosts"
     # and store it in a variable named 'client'    
-    hostname = app_config['hostname']
-    port     = app_config['port']
-    topic    = app_config['topic']   
+    hostname = app_config['events']['hostname']
+    port     = app_config['events']['port']
+    topic    = app_config['events']['topic']   
     client = KafkaClient(hosts=f"{hostname}:{port}")
 
     # TODO: index into the client.topics array using topic from app_config
@@ -66,7 +66,7 @@ def process_messages():
     for msg in messages:
         # This blocks, waiting for any new events to arrive
         # TODO: decode (utf-8) the value property of the message, store in a variable named msg_str
-        msg_str = msg.decode(encoding='UTF-8')
+        msg_str = msg.value.decode('UTF-8')
         # TODO: convert the json string (msg_str) to an object, store in a variable named msg
         msg = json.loads(msg_str)
         # TODO: extract the payload property from the msg object, store in a variable named payload
@@ -107,7 +107,7 @@ def process_messages():
         session.close()
 
     # TODO: call messages.commit_offsets() to store the new read position
-        messages.commit_offsets()
+    messages.commit_offsets()
 
 # Endpoints
 def buy(body):

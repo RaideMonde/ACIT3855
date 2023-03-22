@@ -24,3 +24,20 @@ RECEIVER :: DEBUG – Received response with trace id 6cd37c44-a0b4-41d4-8ba8-2d
 RECEIVER :: DEBUG – Received event buy with trace id b50597be-268a-4764-937f-ef76e9e79fa8
 STORAGE :: DEBUG – Stored buy event with b50597be-268a-4764-937f-ef76e9e79fa8
 RECEIVER :: DEBUG – Received response with trace id b50597be-268a-4764-937f-ef76e9e79fa8 status code 201
+RECEIVER :: DEBUG – Received buy event with trace id 789e6f1f-c359-464f-8540-7d7bbb6f7fc2
+RECEIVER :: DEBUG – Received buy event with trace id 52d31938-3a82-446d-8df4-c7486c8ec0e8
+RECEIVER :: DEBUG – Received buy event with trace id 7c8f644c-32df-4b6c-a995-217c8fa91bff
+RECEIVER :: DEBUG – Received buy event with trace id 589336b1-f896-4b3c-8cda-29c880b1ed53
+RECEIVER :: DEBUG – Received buy event with trace id f8b363d5-118f-4482-9a78-ac5635364160
+RECEIVER :: DEBUG – Received buy event with trace id abd4a0ef-0ad3-4b53-b64f-08a2829fbd0c
+RECEIVER :: DEBUG – Received buy event with trace id 6bb269cd-7623-49b1-aa21-c83d0bf88c5c
+RECEIVER :: DEBUG – Received buy event with trace id f8fb259c-6cd7-4f7a-a7cf-ef7a756473ed
+RECEIVER :: DEBUG – Received buy event with trace id e393765d-80e5-428e-bfcf-2b8d2055a731
+RECEIVER :: DEBUG – PRODUCER:: producing buy event
+RECEIVER :: DEBUG – {"type": "buy", "datetime": "08-02-23 16:29:01", "payload": {"buy_id": "d290f1ee-6c54-4b01-90e6-d701748f0851", "buy_qty": 1, "item_name": "Item 1", "item_price": 19.99, "trace_id": "e393765d-80e5-428e-bfcf-2b8d2055a731"}}
+RECEIVER :: DEBUG – Received buy event with trace id 7acac06f-e7d6-4d5e-8ff9-3055d13ac282
+RECEIVER :: DEBUG – PRODUCER:: producing buy event
+RECEIVER :: DEBUG – {"type": "buy", "datetime": "08-02-23 16:39:03", "payload": {"buy_id": "d290f1ee-6c54-4b01-90e6-d701748f0851", "buy_qty": 1, "item_name": "Item 1", "item_price": 19.99, "trace_id": "7acac06f-e7d6-4d5e-8ff9-3055d13ac282"}}
+RECEIVER :: DEBUG – Received buy event with trace id 61bac664-e4b0-4491-bc80-0c22c0596bef
+RECEIVER :: DEBUG – PRODUCER:: producing buy event
+RECEIVER :: DEBUG – {"type": "buy", "datetime": "08-02-23 16:40:51", "payload": {"buy_id": "d290f1ee-6c54-4b01-90e6-d701748f0851", "buy_qty": 1, "item_name": "Item 1", "item_price": 19.99, "trace_id": "61bac664-e4b0-4491-bc80-0c22c0596bef"}}

@@ -18,9 +18,9 @@ def process_event(event, endpoint):
 
     # TODO: create KafkaClient object assigning hostname and port from app_config to named parameter "hosts"
     # and store it in a variable named 'client'
-    hostname = app_config['hostname']
-    port     = app_config['port']
-    topic    = app_config['topic']
+    hostname = app_config['events']['hostname']
+    port     = app_config['events']['port']
+    topic    = app_config['events']['topic']   
     client = KafkaClient(hosts=f"{hostname}:{port}")
 
     # TODO: index into the client.topics array using topic from app_config
@@ -42,12 +42,12 @@ def process_event(event, endpoint):
             'payload': event}
 
     # TODO: convert the dictionary to a json string
-    event_dump = json.dumps(dict).encode(str = "utf-8")
+    event_dump = json.dumps(dict)
 
 
     # TODO: call the produce() method of your producer variable and pass in your json string
     # note: encode the json string as utf-8
-    producer.produce(event_dump)
+    producer.produce(event_dump.encode('utf-8'))
     
     # TODO: log "PRODUCER::producing x event" where x is the actual event type
     # TODO: log the json string
@@ -69,10 +69,10 @@ def sell(body):
 app = connexion.FlaskApp(__name__, specification_dir='')
 app.add_api("openapi.yml", strict_validation=True, validate_responses=True)
 
-with open('Receiver/app_conf.yml', 'r') as f:
+with open('app_conf.yml', 'r') as f:
     app_config = yaml.safe_load(f.read())
 
-with open('Receiver/log_conf.yml', 'r') as f:
+with open('log_conf.yml', 'r') as f:
     log_config = yaml.safe_load(f.read())
     logging.config.dictConfig(log_config)
 
