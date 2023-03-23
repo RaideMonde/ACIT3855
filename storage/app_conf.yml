@@ -5,6 +5,6 @@ hostname: 'mysql'
 port: 3306
 db: 'events'
 events:
-  hostname: localhost
+  hostname: kafka
   port: 29092
   topic: events
