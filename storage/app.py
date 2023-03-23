@@ -44,7 +44,7 @@ def process_messages():
     hostname = app_config['events']['hostname']
     port     = app_config['events']['port']
     topic    = app_config['events']['topic']   
-    client = KafkaClient(hosts=f"{hostname}:{port}")
+    client = KafkaClient(hosts = f"{str(app_config['events']['hostname'])}:{str(app_config['events']['port'])}", socket_timeout_ms = 100000)
 
     # TODO: index into the client.topics array using topic from app_config
     # and store it in a variable named topic
@@ -104,7 +104,7 @@ def process_messages():
         
         session.add(obj)
         session.commit()
-        session.close()
+        # session.close()
 
     # TODO: call messages.commit_offsets() to store the new read position
     messages.commit_offsets()

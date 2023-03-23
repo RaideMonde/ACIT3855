@@ -1,7 +1,7 @@
 version: 1
 user: 'root'
-password: 'password'
-hostname: 'localhost'
+password: 'root'
+hostname: 'mysql'
 port: 3306
 db: 'events'
 events:

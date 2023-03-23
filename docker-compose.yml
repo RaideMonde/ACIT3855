@@ -22,19 +22,29 @@ services:
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
 
-  receiver:
-    image: receiver
-    ports: 
-      - "8080:8080"
-  
-  storage:
-    image: storage
-    ports: 
-      - "8090:8090"
+  mysql:
+    container_name: mysql
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - data:/var/lib/mysql
+volumes:
+  data:
 
-  processing: 
-    image: processing
-    ports: 
-        - "8100:8100"
-    depends_on: 
-        - "storage"
+  # receiver:
+  #   image: receiver
+  #   ports: 
+  #     - "8080:8080"
+  
+  # storage:
+  #   image: storage
+  #   ports: 
+  #     - "8090:8090"
+
+  # processing: 
+  #   image: processing
+  #   ports: 
+  #       - "8100:8100"
+  #   depends_on: 
+  #       - "storage"
