@@ -125,7 +125,7 @@ def buy(body):
     # TODO add, commit, and close the session
     session.add(b)
     session.commit()
-    session.close()
+    #session.close()
 
     # TODO: call logger.debug and pass in message "Stored buy event with trace id <trace_id>"
     logger.debug(f"Stored buy event with {body['trace_id']}")
@@ -167,7 +167,7 @@ def sell(body):
     
     session.add(s)
     session.commit()
-    session.close()
+    # session.close()
 
     logger.debug(f"Stored sell event with {s['trace_id']}")
     
