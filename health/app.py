@@ -13,12 +13,35 @@ statuses = {
 
 def check():
     # TODO - use try except block(s) to send a GET request to each of your services /health endpoints (receiver, storage, and processing)
+    storageCode = ''
+    receiverCode = ''
 
+    try: 
+        storageCode = requests.get('http://142.93.144.97/storage/ui/')
+    except requests.exceptions.HTTPError as e:
+        return "Down"
+
+    try: 
+        receiverCode = requests.get('http://142.93.144.97/receiver/ui/')
+    except requests.exceptions.HTTPError as e:
+        return "Down"
+    
     # For each service, check if the response has status code 200, e.g. res.status_code == 200
 
     # If the status code for a given service is 200, index into the statuses dict and assign the string "Up" to the correct service key
 
     # If the status is not 200, or an exception is thrown because the request cannot be completed, index into the statuses dict and assign the string "Down" to the correct key
+    
+    if storageCode.status_code == 200:
+        statuses["storage"] = 'Running'
+    else:
+        statuses["storage"] = 'Down'
+
+    
+    if receiverCode.status_code == 200:
+        statuses["receiver"] = 'Running'
+    else:
+        statuses["receiver"] = 'Down'
 
     return statuses # ignore the instructions to convert this to JSON and leave as-is
 
